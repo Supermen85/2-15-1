@@ -1,21 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] private Enemy _enemyPrefab;
+    [SerializeField] SpawnPoint[] _spawnPoints;
+    [SerializeField] private float _timeBetweenSpawns = 2f;
 
-    private Vector3 _position;
-
-    void Start()
+    private void Start()
     {
-        _position = gameObject.transform.position;    
+        StartCoroutine(SpawnInRandomSpawner());
     }
 
-    public void Spawn()
+    private IEnumerator SpawnInRandomSpawner()
     {
-        float randomAngle = Random.Range(0, 360);
-        Enemy enemy = Instantiate(_enemyPrefab, _position, Quaternion.Euler(0, randomAngle, 0));
+        bool isRunning = true;
+
+        while (isRunning)
+        {
+            int randomIndex = Random.Range(0, _spawnPoints.Length);
+
+            _spawnPoints[randomIndex].Spawn();
+
+            yield return new WaitForSeconds(_timeBetweenSpawns);
+        }
     }
 }
