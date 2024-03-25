@@ -13,7 +13,10 @@ public class SpawnPoint : MonoBehaviour
 
     public void Spawn()
     {
-        float randomAngle = Random.Range(0, 360);
-        Enemy enemy = Instantiate(_enemyPrefab, _position, Quaternion.Euler(0, randomAngle, 0));
+        Enemy enemy = Instantiate(_enemyPrefab, _position, Quaternion.identity);
+        
+        Vector3 direction = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
+        
+        enemy.SetDirection(direction);
     }
 }
