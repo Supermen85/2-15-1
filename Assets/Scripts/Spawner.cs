@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class Spawner : MonoBehaviour
 {
-    [SerializeField] SpawnPoint[] _spawnPoints;
+    [SerializeField] private SpawnPoint[] _spawnPoints;
     [SerializeField] private float _timeBetweenSpawns = 2f;
 
     private void Start()
@@ -14,6 +14,8 @@ public class Spawner : MonoBehaviour
     private IEnumerator SpawnInRandomSpawner()
     {
         bool isRunning = true;
+        
+        var wait = new WaitForSeconds(_timeBetweenSpawns);
 
         while (isRunning)
         {
@@ -21,7 +23,7 @@ public class Spawner : MonoBehaviour
 
             _spawnPoints[randomIndex].Spawn();
 
-            yield return new WaitForSeconds(_timeBetweenSpawns);
+            yield return wait;
         }
     }
 }
