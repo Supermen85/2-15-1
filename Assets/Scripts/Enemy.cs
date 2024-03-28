@@ -1,31 +1,26 @@
 using UnityEngine;
 
-[RequireComponent (typeof(Rigidbody))] 
+[RequireComponent (typeof(Movement))] 
 
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _speed = 2f;
-    
-    private Vector3 _targetDirection;
-    private Rigidbody _rigidbody;
+
+    private Movement _movement;
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();        
+        _movement = GetComponent<Movement>();
+        _movement.SetSpeed(_speed);
     }
 
-    private void FixedUpdate()
+    public void SetTarget(NPC npc)
     {
-        Move();
+        _movement.SetTarget(npc.transform);
     }
 
-    public void Move()
+    public void StartMovement()
     {
-        _rigidbody.velocity = new Vector3(_targetDirection.x * _speed, _rigidbody.velocity.y, _targetDirection.z * _speed);
-    }
-
-    public void SetDirection(Vector3 direction)
-    {
-        _targetDirection = direction;
+        _movement.enabled = true;
     }
 }
